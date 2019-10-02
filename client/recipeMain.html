@@ -171,19 +171,6 @@
         }
         const init = () => {
             //grab form
-            const recipeForm = document.querySelector('#recipeForm');
-            const getRecipeForm = document.querySelector('#getRecipeForm');
-            const ingredientCount= document.querySelector('#ingredientCountField');
-            
-            //create handler
-            const addRecipe = (e) => sendPost(e, recipeForm);
-            const getRecipes = (e) => getAjax(e, getRecipeForm);
-            const changeCount = (e) => listSizeChange(e, ingredientCount)
-
-            //attach submit event (for clicking submit or hitting enter)
-            recipeForm.addEventListener('submit', addRecipe);
-            getRecipeForm.addEventListener('submit', getRecipes);
-            ingredientCount.addEventListener('change', changeCount);
         }; 
 
 
@@ -194,42 +181,14 @@
 
 <body class="py-4">
     <section id="top">
-        <h3>POST Status Code Tests</h3>
+        <h3>Oh Yeah, It's All Coming Together</h3>
 
 
     </section>
     <section id="content">
     </section>
     <div class="container">
-        <form id="recipeForm" action="/addRecipe" method="post">
-            <div class="row mb-3">
-                <div class="col-md-4 themed-grid-col">
-                    <label for="name">Name: </label>
-                    <input id="nameField" type="text" name="name" />
-                </div>
-                <div class="col-md-4 themed-grid-col">
-                    <label for="taste">Taste: </label>
-                    <input id="tasteField" type="text" name="taste" min="0" max="100" step="1" />
-                </div>
-                <div class="col-md-4 themed-grid-col">
-                    <label for="brewTime">Brew Time: </label>
-                    <input id="brewTimeField" type="number" name="brewTime" min="0" max="100" step="1" />
-                </div>
-            </div>
-
-            <div class="row mb-3">
-                <div class="col-md-8 themed-grid-col">
-                    <div class="pb-3">
-                        <label for="ingredients">Number of Ingredients: </label>
-                        <input id="ingredientCountField" type="number" name="ingredientCount" min="0" max="100" step="1" value="0" />
-                    </div>
-                    <div class="row" id="ingredientList">
-                    </div>
-                </div>
-            </div>
-            <input type="submit" value="Add Recipe" />
-        </form>
-
+        <a href='./client.html'><input id='createRecipe'  type="submit" value="YOU BET I'M GONNA MAKE A TEA RECIPE" /></a>
         <form id="getRecipeForm" action="/getRecipess" method="get">
             <div class="row mb-3">
                 <div class="col-md-4 themed-grid-col">

@@ -1,5 +1,5 @@
 {
-    "name": "http-api-assignment-ii",
+    "name": "get-this-tea-db",
     "version": "1.0.0",
     "description": "",
     "main": "./src/server.js",
@@ -11,14 +11,14 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/TadeoM/http-api-assignment-ii.git"
+        "url": "git+https://github.com/TadeoM/get-this-tea-db.git"
     },
     "author": "Tadeo Menichelli",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/TadeoM/http-api-assignment-ii/issues"
+        "url": "https://github.com/TadeoM/get-this-tea-db/issues"
     },
-    "homepage": "https://github.com/TadeoM/http-api-assignment-ii#readme",
+    "homepage": "https://github.com/TadeoM/get-this-tea-db#readme",
     "devDependencies": {
         "babel-cli": "^6.26.0",
         "babel-preset-env": "^1.7.0",

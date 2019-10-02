@@ -10,19 +10,14 @@ const port = process.env.PORT || process.env.NODE_PORT || 3000;
 const urlStruct = {
     'GET': {
         '/': htmlHandler.getIndex,
+        '/createRecipe': htmlHandler.getCreationForm,
         '/style.css': htmlHandler.getCSS,
-        /*'/success': jsonHandler.success,
-        '/badRequest': jsonHandler.badRequest,
-        '/unauthorized': jsonHandler.unauthorized,
-        '/forbidden': jsonHandler.forbidden,
-        '/internal': jsonHandler.internal,
-        '/notImplemented': jsonHandler.notImplemented,*/
         '/getRecipes': jsonHandler.getRecipes,
         '/notReal': jsonHandler.notReal,
     },
     'HEAD': {
-        '/getRecipesMeta': jsonHandler.getRecipesMeta,
-        '/notRealMeta': jsonHandler.notRealMeta,
+        '/getRecipes': jsonHandler.getRecipesMeta,
+        '/notReal': jsonHandler.notRealMeta,
         notFound: jsonHandler.notFound,
     },
     'POST': {
