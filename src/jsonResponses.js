@@ -1,4 +1,4 @@
-const users = {};
+const recipes = {};
 
 const respondJSON = (request, response, status, object) => {
     const headers = {
@@ -19,15 +19,15 @@ const respondJSONMeta = (request, response, status) => {
     response.end();
 };
 
-const getUsers = (request, response) => {
+const getRecipes = (request, response) => {
     const responseJSON = {
-        users,
+        recipes,
     }
 
     return respondJSON(request, response, 200, responseJSON);
 };
 
-const getUsersMeta = (request, response) => {
+const getRecipesMeta = (request, response) => {
     return respondJSONMeta(request, response, 200);
 };
 
@@ -43,33 +43,39 @@ const notRealMeta = (request, response) => {
     return respondJSONMeta(request, response, 404);
 };
 
-const addUser = (request, response, params) => {
+const addRecipe = (request, response, params) => {
     const responseJSON = {
         message: '',
     }
-    if (!params.name || !params.age) {
+    if (!params.name || !params.brewTime) {
         responseJSON.message = 'Missing params name and/or age.';
-        return respondJSON(request, response, 400, responseJSON.message);
+        return respondJSON(request, response, 400, responseJSON);
     }
 
     
-    const newUser = {
+    const newRecipe = {
         name: params.name,
-        age: params.age,
+        taste: params.taste,
+        ingredients: params.ingredients,
+        brewTime: params.brewTime,
     };
 
-    if (users.hasOwnProperty(newUser.name)) {
+    if (recipes.hasOwnProperty(newRecipe.name)) {
         
-        users[newUser.name].age = newUser.age;
+        recipes[newRecipe.name].taste = newRecipe.taste;
+        recipes[newRecipe.name].ingredients = newRecipe.ingredients;
+        recipes[newRecipe.name].brewTime = newRecipe.brewTime;
         responseJSON.message = `Updated user.`
         
-        return respondJSON(request,response, 204, newUser);
+        return respondJSON(request,response, 204, responseJSON);
     }
     
     
-    users[newUser.name] = {};
-    users[newUser.name].name = newUser.name;
-    users[newUser.name].age = newUser.age;
+    recipes[newRecipe.name] = {};
+    recipes[newRecipe.name].name = newRecipe.name;
+    recipes[newRecipe.name].taste = newRecipe.taste;
+    recipes[newRecipe.name].ingredients = newRecipe.ingredients;
+    recipes[newRecipe.name].brewTime = newRecipe.brewTime;
     responseJSON.message = `Created new user.`;
 
     return respondJSON(request, response, 201, responseJSON);
@@ -93,11 +99,11 @@ const notFound = (request, response) => {
 };
 
 module.exports = {
-    getUsers,
-    getUsersMeta,
+    getRecipes,
+    getRecipesMeta,
     notReal,
     notRealMeta,
-    addUser,
+    addRecipe,
     /*success,
     badRequest,
     unauthorized,

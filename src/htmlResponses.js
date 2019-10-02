@@ -18,6 +18,7 @@ const getCSS = (request, response) => {
     response.write(indexCSS);
     response.end();
 };
+
 module.exports.getCSS = getCSS;
 module.exports.getIndex = getIndex;
 
