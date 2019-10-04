@@ -25,17 +25,7 @@ const urlStruct = {
     },
 };
 
-const onRequest = (request, response) => {
-    const parsedUrl = url.parse(request.url);
 
-    if (request.method === 'POST') {
-        handlePost(request, response, parsedUrl)
-    } else if (urlStruct[request.method][parsedUrl.pathname]) {
-        urlStruct[request.method][parsedUrl.pathname](request, response);
-    } else {
-        urlStruct['HEAD'].notFound(request, response);
-    }
-};
 
 const handlePost = (request, response, parsedUrl) => {
     //if post is to /addRecipe (our only POST url)
@@ -72,6 +62,18 @@ const handlePost = (request, response, parsedUrl) => {
             //pass to our addRecipe function
             jsonHandler.addRecipe(request, res, bodyParams);
         });
+    }
+};
+
+const onRequest = (request, response) => {
+    const parsedUrl = url.parse(request.url);
+
+    if (request.method === 'POST') {
+        handlePost(request, response, parsedUrl)
+    } else if (urlStruct[request.method][parsedUrl.pathname]) {
+        urlStruct[request.method][parsedUrl.pathname](request, response);
+    } else {
+        urlStruct['HEAD'].notFound(request, response);
     }
 };
 

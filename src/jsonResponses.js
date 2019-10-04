@@ -60,7 +60,7 @@ const addRecipe = (request, response, params) => {
         brewTime: params.brewTime,
     };
 
-    if (recipes.hasOwnProperty(newRecipe.name)) {
+    /*if (recipes.hasOwnProperty(newRecipe.name)) {
         
         recipes[newRecipe.name].taste = newRecipe.taste;
         recipes[newRecipe.name].ingredients = newRecipe.ingredients;
@@ -68,7 +68,7 @@ const addRecipe = (request, response, params) => {
         responseJSON.message = `Updated user.`
         
         return respondJSON(request,response, 204, responseJSON);
-    }
+    }*/
     
     
     recipes[newRecipe.name] = {};
@@ -85,14 +85,6 @@ const notFound = (request, response) => {
     const responseJSON = {
         message: 'The page you are looking for is not found.',
         id: 'notFound',
-    }
-    if (request.headers.accept === 'text/xml') {
-        let responseXML = '<response>';
-        responseXML = `${responseXML} <message>This is not the page you are looking for.</message>`;
-        responseXML = `${responseXML} <id>notFound</id>`;
-        responseXML = `${responseXML} </response>`;  
-        
-        return respondXML(request, response, 404, responseXML);
     }
 
     return respondJSON(request, response, 404, responseJSON);
