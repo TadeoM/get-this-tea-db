@@ -172,17 +172,15 @@
         const init = () => {
             //grab form
             const recipeForm = document.querySelector('#recipeForm');
-            const getRecipeForm = document.querySelector('#getRecipeForm');
-            const ingredientCount= document.querySelector('#ingredientCountField');
+            const ingredientCount = document.querySelector('#ingredientCountField');
             
             //create handler
             const addRecipe = (e) => sendPost(e, recipeForm);
-            const getRecipes = (e) => getAjax(e, getRecipeForm);
             const changeCount = (e) => listSizeChange(e, ingredientCount)
 
             //attach submit event (for clicking submit or hitting enter)
             recipeForm.addEventListener('submit', addRecipe);
-            getRecipeForm.addEventListener('submit', getRecipes);
+            
             ingredientCount.addEventListener('change', changeCount);
         }; 
 
@@ -229,29 +227,7 @@
             </div>
             <input type="submit" value="Add Recipe" />
         </form>
-
-        <form id="getRecipeForm" action="/getRecipess" method="get">
-            <div class="row mb-3">
-                <div class="col-md-4 themed-grid-col">
-                    <select id='urlField'>
-                        <option value='/getRecipes'>/getRecipes</option>
-                        <option value='/notReal'>/notReal</option>
-                    </select>
-                </div>
-                <div class="col-md-4 themed-grid-col">
-                    <select id="methodSelect">
-                        <option value="get">GET</option>
-                        <option value="head">HEAD</option>
-                    </select>
-                </div>
-                <div class="col-md-4 themed-grid-col">
-                    <input type="submit" value="Get User" />
-                </div>
-            </div>
-
-
-
-        </form>
+        <a href='./'><input id='createRecipe'  type="submit" value="Let me look at them Tea Recipes BOI" /></a>
     </div>
 </body>
 

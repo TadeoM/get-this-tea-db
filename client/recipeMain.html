@@ -170,9 +170,14 @@
             return false;
         }
         const init = () => {
-            //grab form
-        }; 
+            const getRecipeForm = document.querySelector('#getRecipeForm');
+            
+            //create handler
+            const getRecipes = (e) => getAjax(e, getRecipeForm);
 
+            //attach submit event (for clicking submit or hitting enter)
+            getRecipeForm.addEventListener('submit', getRecipes);
+        }
 
         window.onload = init;
 
@@ -188,7 +193,7 @@
     <section id="content">
     </section>
     <div class="container">
-        <a href='./client.html'><input id='createRecipe'  type="submit" value="YOU BET I'M GONNA MAKE A TEA RECIPE" /></a>
+        <a href='./createRecipe'><input id='createRecipe' type="submit" value="YOU BET I'M GONNA MAKE A TEA RECIPE" /></a>
         <form id="getRecipeForm" action="/getRecipess" method="get">
             <div class="row mb-3">
                 <div class="col-md-4 themed-grid-col">
