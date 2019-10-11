@@ -87,25 +87,7 @@
             }
         };
 
-        const getAjax = (e, getRecipeForm) => {
-            
-            //grab the form's name and age fields so we can check user input
-            const url = getRecipeForm.querySelector('#urlField').value;
-            const type = getRecipeForm.querySelector('#methodSelect').value;
-            
-            const xhr = new XMLHttpRequest(); 
-            
-            xhr.open(type, url); 
-            xhr.setRequestHeader ("Accept", 'type/JSON');    
 
-            xhr.onload = () => handleResponse(xhr);
-
-            xhr.send();
-            
-            e.preventDefault();
-            //return false to prevent the browser from trying to change page
-            return false;
-        };
         const sendPost = (e, recipeForm) => {
             //grab the forms action (url to go to)
             //and method (HTTP method - POST in this case)

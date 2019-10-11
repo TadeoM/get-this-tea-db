@@ -1,4 +1,11 @@
-const recipes = {};
+const recipes = {
+    "0": {
+        name: "Therapuetic Tea",
+        taste: "Beer",
+        brewTime: "1",
+        ingredients: "beer,depression",
+    }
+};
 
 const respondJSON = (request, response, status, object) => {
     const headers = {
@@ -52,7 +59,7 @@ const addRecipe = (request, response, params) => {
         return respondJSON(request, response, 400, responseJSON);
     }
 
-    
+
     const newRecipe = {
         name: params.name,
         taste: params.taste,
@@ -69,8 +76,8 @@ const addRecipe = (request, response, params) => {
         
         return respondJSON(request,response, 204, responseJSON);
     }*/
-    
-    
+
+
     recipes[newRecipe.name] = {};
     recipes[newRecipe.name].name = newRecipe.name;
     recipes[newRecipe.name].taste = newRecipe.taste;
