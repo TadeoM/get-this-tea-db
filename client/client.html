@@ -131,12 +131,23 @@
 
         const listSizeChange = (e, ingredientCount) => {
             const ingredientListRow = document.querySelector('#ingredientList');
-            for (let i = currentIngredientCount; i <= ingredientCount.value; i++){
-                currentIngredientCount++;
+            ingredientListRow.innerHTML = "";
+            //if(ingredientCount.value > 0 && currentIngredientCount > ingredientCount.value){
+            //    let temp = document.querySelector(`ingredient${ingredientCount.value}`);
+            //    console.log("Parent");
+            //    console.log(temp.r);
+            //}
+            
+            //console.log(ingredientListRow)
+            for (let i = 1; i <= ingredientCount.value; i++){
+                //currentIngredientCount++;
                 let newIngredient = document.createElement('div');
-                newIngredient.innerHTML = `<div class="col-md-6 themed-grid-col">${i}.) <input id="ingredientsField${i}" type="text" name="ingredients" min="0" max="100" step="1" /></div>`;
+                newIngredient.setAttribute('class', `col-md-6 themed-grid-col`);
+                newIngredient.setAttribute('id', `ingredient${i}`)
+                newIngredient.innerHTML = `${i}.) <input id="ingredientsField${i}" type="text" name="ingredients" min="0" max="100" step="1" />`;
                 
                 ingredientListRow.appendChild(newIngredient);
+                
                 const updateValue = (e) => updateIngredients(e, i);
                 newIngredient.addEventListener('change', updateValue);
             }
@@ -151,7 +162,8 @@
             currentIngredients[num] = thisIngredient.value;
             return false;
         }
-        const init = () => {
+        
+        const init = () => { 
             //grab form
             const recipeForm = document.querySelector('#recipeForm');
             const ingredientCount = document.querySelector('#ingredientCountField');

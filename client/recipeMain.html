@@ -26,7 +26,6 @@
                 font-size: 3.5rem;
             }
         }
-
     </style>
 
     <script type="text/babel">
@@ -50,9 +49,25 @@
             //if users in response, add to screen
             if(obj.recipes) {
                 const recipeList = document.createElement('p');
-                let recipes = JSON.stringify(obj.recipes);
-                recipeList.textContent = recipes;
-                content.appendChild(recipeList);
+                
+                for (let i = 0; i <= obj.recipeCount; i++){
+                    let recipeBox = document.createElement('div');
+                    let recipe = obj.recipes[i];
+                    console.log(recipe);
+                    recipeBox.setAttribute('class', "row themed-grid-col");
+                    recipeBox.innerHTML += `<div class="col-md-6 themed-grid-col"><h2>Name: ${recipe.name}</h2></div>`;
+                    recipeBox.innerHTML += `<div class="col-md-6 themed-grid-col"><h2>Taste: ${recipe.taste}</h2></div>`;
+                    recipeBox.innerHTML += `<div class="col-md-6 themed-grid-col"><h2>Brew Time: ${recipe.brewTime}</h2></div>`;
+                    let temp = `<div class="col-md-6 themed-grid-col"><h2>Ingredients:</h2>`;
+                    for (let j = 0; j < Object.keys(recipe.ingredients).length; j++) {
+                        temp += `<h3>${recipe.ingredients[j]}</h3>`;
+                    }
+                    temp += '</div>';
+                    recipeBox.innerHTML += temp;
+                    recipeBox.innerHTML += `</div>`;
+                    content.appendChild(recipeBox);
+                }                
+                //recipeList.textContent = recipes;
             }
         };
 
@@ -81,48 +96,42 @@
               break;
           }
             
-            if (xhr.response !== ""){
-                console.log(JSON.parse(xhr.response));
-                parseJSON(xhr, content);
-            }
+          if (xhr.response !== ""){
+              console.log(JSON.parse(xhr.response));
+              parseJSON(xhr, content);
+          }
         };
 
-        const getAjax = (e, getRecipeForm) => {
+        const getAjax = (getRecipeForm) => {
             
             //grab the form's name and age fields so we can check user input
             const url = getRecipeForm.querySelector('#urlField').value;
             const type = getRecipeForm.querySelector('#methodSelect').value;
             
             const xhr = new XMLHttpRequest(); 
-            
-            xhr.open(type, url); 
+
+            xhr.open(type, url);
             xhr.setRequestHeader ("Accept", 'type/JSON');    
 
             xhr.onload = () => handleResponse(xhr);
 
             xhr.send();
-            
-            e.preventDefault();
+
+            //e.preventDefault();
             //return false to prevent the browser from trying to change page
             return false;
         };
-        
-        const updateIngredients = (e, num) => {
-            //console.log(newValue + "<-- new Value . num --> " + num);
-            const thisIngredient = document.querySelector(`#ingredientsField${num}`);
-            
-            currentIngredients[num] = thisIngredient.value;
-            return false;
-        }
+
         const init = () => {
             const getRecipeForm = document.querySelector('#getRecipeForm');
             
             //create handler
-            const getRecipes = (e) => getAjax(e, getRecipeForm);
+            const getRecipes = () => getAjax(getRecipeForm);
+            getRecipes();
 
             //attach submit event (for clicking submit or hitting enter)
-            getRecipeForm.addEventListener('submit', getRecipes);
-        }
+            //getRecipeForm.addEventListener('submit', getRecipes);
+        };
 
         window.onload = init;
 
@@ -134,8 +143,6 @@
         <h3>Oh Yeah, It's All Coming Together</h3>
 
 
-    </section>
-    <section id="content">
     </section>
     <div class="container">
         <a href='./createRecipe'><input id='createRecipe' type="submit" value="YOU BET I'M GONNA MAKE A TEA RECIPE" /></a>
@@ -157,10 +164,9 @@
                     <input type="submit" value="Get User" />
                 </div>
             </div>
-
-
-
         </form>
+        <section id="content">
+    </section>
     </div>
 </body>
 
