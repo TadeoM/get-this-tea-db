@@ -50,9 +50,10 @@
             if(obj.recipes) {
                 const recipeList = document.createElement('p');
                 
-                for (let i = 0; i <= obj.recipeCount; i++){
+                for (let i = 0; i < obj.recipeCount; i++){
                     let recipeBox = document.createElement('div');
                     let recipe = obj.recipes[i];
+                    console.log("Recipe:");
                     console.log(recipe);
                     recipeBox.setAttribute('class', "row themed-grid-col");
                     recipeBox.innerHTML += `<div class="col-md-6 themed-grid-col"><h2>Name: ${recipe.name}</h2></div>`;

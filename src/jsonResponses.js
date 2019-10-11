@@ -1,14 +1,13 @@
 const recipes = {
     "0": {
-        "name": "Therapeutic Tea",
-        "taste":"Beer",
-        "brewTime":"2",
-        "ingredients":{
-            "0": "beer",
-        },
+        name: "Therapeutic Tea",
+        taste:"Beer",
+        brewTime:"1",
+        ingredients: ["beer"],
     }
 };
-let recipeCount = 0;
+
+let recipeCount = 1;
 
 const respondJSON = (request, response, status, object) => {
     const headers = {
@@ -29,7 +28,7 @@ const respondJSONMeta = (request, response, status) => {
     response.end();
 };
 
-const getRecipes = (request, response) => {
+const getRecipes = (request, response, params) => {
     const responseJSON = {
         recipes,
         recipeCount,
@@ -85,6 +84,17 @@ const addRecipe = (request, response, params) => {
     recipes[recipeCount] = {};
     recipes[recipeCount].name = newRecipe.name;
     recipes[recipeCount].taste = newRecipe.taste;
+    let tempIngredients = newRecipe.ingredients.toString();
+    tempIngredients = tempIngredients.split(',');
+    console.dir(tempIngredients)
+    tempIngredients.shift();
+    
+    recipes[recipeCount].ingredients = [];
+    for (let i = 0; i < tempIngredients.length; i++){
+        recipes[recipeCount].ingredients[i] = (tempIngredients[i]);
+    }
+    console.dir(recipes[recipeCount])
+    
     recipes[recipeCount].ingredients = newRecipe.ingredients;
     recipes[recipeCount].brewTime = newRecipe.brewTime;
     responseJSON.message = `Created new user.`;
