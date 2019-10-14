@@ -94,13 +94,13 @@ const getRecipes = (request, response, params) => {
         responseJSON.recipes = recipes;
         responseJSON.recipeCount = recipeCount;
     }
-    else {
+    /*else {
         for (let i = 0; i < recipeCount; i++) {
             if(recipes[i].name === params.recipe){
                 responseJSON.recipe = recipe[i];
             }
         }
-    }
+    }*/
 
     return respondJSON(request, response, 200, responseJSON);
 };
@@ -126,7 +126,7 @@ const addRecipe = (request, response, params) => {
         message: '',
     }
     if (!params.name || !params.brewTime || !params.taste || !params.ingredients || !params.imageRef) {
-        responseJSON.message = 'Missing params, must have name, taste, brew time, ingredients, and reference image';
+        responseJSON.message = 'Missing params, must have name, taste, brew time, ingredients, and reference img';
         return respondJSON(request, response, 400, responseJSON);
     }
 
