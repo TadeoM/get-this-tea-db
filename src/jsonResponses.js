@@ -125,8 +125,10 @@ const addRecipe = (request, response, params) => {
     const responseJSON = {
         message: '',
     }
-    if (!params.name || !params.brewTime || !params.taste || !params.ingredients || !params.imageRef) {
-        responseJSON.message = 'Missing params, must have name, taste, brew time, ingredients, and reference img';
+    if (!params.name || !params.brewTime || !params.taste 
+        || !params.ingredients || !params.imageRef) {
+        responseJSON.message = `Missing params, must have name, 
+        taste, brew time, ingredients, and reference img`;
         return respondJSON(request, response, 400, responseJSON);
     }
 
