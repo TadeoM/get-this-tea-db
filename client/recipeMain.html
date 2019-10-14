@@ -3,6 +3,8 @@
 
 <head>
     <title>Get This Tea DB</title>
+    <link href="https://fonts.googleapis.com/css?family=Sedgwick+Ave&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Sedgwick+Ave+Display&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" type="text/css" href="/style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/grid/">
@@ -36,7 +38,7 @@
         //function to parse our response
         const parseJSON = (xhr, content) => {
             //parse response (obj will be empty in a 204 updated)
-            const obj = JSON.parse(xhr.response);
+            const obj = xhr.response;
             //console.dir(obj);
 
             //if message in response, add to screen
@@ -50,27 +52,85 @@
             if(obj.recipes) {
                 const recipeList = document.createElement('p');
                 
-                for (let i = 0; i < obj.recipeCount; i++){
-                    let recipeBox = document.createElement('div');
-                    let recipe = obj.recipes[i];
-                    console.log("Recipe:");
-                    console.log(recipe);
-                    recipeBox.setAttribute('class', "row themed-grid-col");
-                    recipeBox.innerHTML += `<div class="col-md-6 themed-grid-col"><h2>Name: ${recipe.name}</h2></div>`;
-                    recipeBox.innerHTML += `<div class="col-md-6 themed-grid-col"><h2>Taste: ${recipe.taste}</h2></div>`;
-                    recipeBox.innerHTML += `<div class="col-md-6 themed-grid-col"><h2>Brew Time: ${recipe.brewTime}</h2></div>`;
-                    let temp = `<div class="col-md-6 themed-grid-col"><h2>Ingredients:</h2>`;
-                    for (let j = 0; j < Object.keys(recipe.ingredients).length; j++) {
-                        temp += `<h3>${recipe.ingredients[j]}</h3>`;
+                for (let i = 0; i < obj.recipeCount; i+=2){
+                    console.log("I: " + i)
+                    let recipeRow = document.createElement('div');
+                    
+                    recipeRow.setAttribute('class', "row display-flex");
+                    
+                    let recipeBox1 = document.createElement('div');
+                    recipeBox1.setAttribute('class', "col-md-6  themed-grid-col")
+                    recipeBox1.innerHTML += createRecipeBox(obj, recipeBox1, i).innerHTML;
+                    recipeRow.appendChild(recipeBox1);
+                    let recipeBox2;
+                    if(i+1 < obj.recipeCount){
+                        recipeBox2 = document.createElement('div');
+                        recipeBox2.setAttribute('class', "col-md-6  themed-grid-col")
+                        recipeBox2.innerHTML += createRecipeBox(obj, recipeBox2, i+1).innerHTML;
+                        recipeRow.appendChild(recipeBox2);
                     }
-                    temp += '</div>';
-                    recipeBox.innerHTML += temp;
-                    recipeBox.innerHTML += `</div>`;
-                    content.appendChild(recipeBox);
+                    
+                    
+                    //console.dir(recipeRow);
+                    content.appendChild(recipeRow);
                 }                
-                //recipeList.textContent = recipes;
             }
+            /*else {
+                console.log("I: " + i)
+                let recipeRow = document.createElement('div');
+                
+                recipeRow.setAttribute('class', "row display-flex themed-grid-col");
+                
+                let recipeBox1 = document.createElement('div');
+                recipeBox1.setAttribute('class', "col-md-6  themed-grid-col")
+                recipeBox1.innerHTML += createRecipeBox(obj, recipeBox1, i).innerHTML;
+                recipeRow.appendChild(recipeBox1);
+                let recipeBox2;
+                if(i+1 < obj.recipeCount){
+                    recipeBox2 = document.createElement('div');
+                    recipeBox2.setAttribute('class', "col-md-6  themed-grid-col")
+                    recipeBox2.innerHTML += createRecipeBox(obj, recipeBox2, i+1).innerHTML;
+                    recipeRow.appendChild(recipeBox2);
+                }
+                
+                
+                //console.dir(recipeRow);
+                content.appendChild(recipeRow);
+            }*/
         };
+        const createRecipeBox = (obj, recipeBox, recipeNum) => {
+            console.log("Called");
+            let recipe = obj.recipes[recipeNum];
+            recipeBox.innerHTML += `<div class="col-md-12 "><h2 class="name"><strong>Name: </strong>${recipe.name}</h2></div>`;
+            recipeBox.innerHTML += `<div class="col-md-12"><h2 class="taste"><strong>Taste:</strong> ${recipe.taste}</h2></div>`;
+            recipeBox.innerHTML += `<div class="col-md-12"><h2 class="brewTime"><strong>Brew Time:</strong> ${recipe.brewTime} min</h2></div>`;
+            let temp = `<div class="col-md-8"><h2 class="ingredientGroup"><strong>Ingredients:</strong></h2>`;
+            
+            let ingredientArray = recipe.ingredients;
+            ingredientArray.toString().split('b');
+            let wordCount = 1;
+            for (let j = 0; j < Object.keys(recipe.ingredients).length; j++) {
+                if(recipe.ingredients[j] === ',' || j === 0){
+                    temp += `<h3 class="ingredient">${wordCount}: `
+                    wordCount++;
+                }
+                if(recipe.ingredients[j] !== ','){
+                    temp += `${recipe.ingredients[j]}`;
+                }
+                if(recipe.ingredients[j+1] === ','){
+                    temp += '</h3>';
+                    
+                }
+            }
+            temp += '</div>';
+            // <img src="pic_trulli.jpg" alt="Italian Trulli">
+            
+
+            recipeBox.innerHTML += temp;
+            recipeBox.innerHTML += `<div class="col-md-4 themed-grid-col"><img class="imageRef" src="${recipe.imageRef}" alt="Italian Trulli"></div>`;
+            recipeBox.innerHTML += `</div>`;
+            return recipeBox;
+        }
 
         const handleResponse = (xhr) => {
           const content = document.querySelector('#content');
@@ -78,7 +138,6 @@
           //check the status code
           switch(xhr.status) {
             case 200: //success
-              content.innerHTML = `<b>Success</b>`;
               break;
             case 201: //created
               content.innerHTML = '<b>Create</b>';
@@ -98,27 +157,44 @@
           }
             
           if (xhr.response !== ""){
-              console.log(JSON.parse(xhr.response));
+              console.log(xhr.response);
               parseJSON(xhr, content);
           }
         };
 
-        const getAjax = (getRecipeForm) => {
+        const getAjax = (e, getRecipeForm) => {
             
             //grab the form's name and age fields so we can check user input
-            const url = getRecipeForm.querySelector('#urlField').value;
-            const type = getRecipeForm.querySelector('#methodSelect').value;
-            
             const xhr = new XMLHttpRequest(); 
 
-            xhr.open(type, url);
-            xhr.setRequestHeader ("Accept", 'type/JSON');    
+            xhr.open('get', '/getRecipes');
+            xhr.setRequestHeader ("Accept", 'type/JSON');
+            xhr.responseType = 'json';
+
+            xhr.onload = () => handleResponse(xhr);
+
+            let formData = `recipe=${getRecipeForm[0].value}`;
+            console.dir(formData);
+            xhr.send(formData);
+            
+            e.preventDefault();
+            //return false to prevent the browser from trying to change page
+            return false;
+        };
+
+        const getAllRecipes = (getRecipeForm, getAll) => {
+            
+            //grab the form's name and age fields so we can check user input
+            const xhr = new XMLHttpRequest(); 
+
+            xhr.open('get', '/getRecipes');
+            xhr.setRequestHeader ("Accept", 'type/JSON');
+            xhr.responseType = 'json';
 
             xhr.onload = () => handleResponse(xhr);
 
             xhr.send();
-
-            //e.preventDefault();
+            
             //return false to prevent the browser from trying to change page
             return false;
         };
@@ -127,11 +203,11 @@
             const getRecipeForm = document.querySelector('#getRecipeForm');
             
             //create handler
-            const getRecipes = () => getAjax(getRecipeForm);
-            getRecipes();
+            const getRecipes = (e) => getAjax(e, getRecipeForm);
+            getAllRecipes(getRecipeForm, true);
 
             //attach submit event (for clicking submit or hitting enter)
-            //getRecipeForm.addEventListener('submit', getRecipes);
+            getRecipeForm.addEventListener('submit', getRecipes);
         };
 
         window.onload = init;
@@ -141,32 +217,30 @@
 
 <body class="py-4">
     <section id="top">
-        <h3>Oh Yeah, It's All Coming Together</h3>
-
-
+        <h2 class="title">Get This Tea Database</h2>
     </section>
+    
     <div class="container">
-        <a href='./createRecipe'><input id='createRecipe' type="submit" value="YOU BET I'M GONNA MAKE A TEA RECIPE" /></a>
+        <div class="row display-flex mb-3">
+            <div class="col-md-4 col-sm-offset-4 ">
+                <a id="createButton" href='./createRecipe'><input id='createRecipe' type="submit" value="Create a Recipe" /></a>
+            </div>
+            
+        </div>
+        
         <form id="getRecipeForm" action="/getRecipess" method="get">
-            <div class="row mb-3">
-                <div class="col-md-4 themed-grid-col">
-                    <select id='urlField'>
-                        <option value='/getRecipes'>/getRecipes</option>
-                        <option value='/notReal'>/notReal</option>
-                    </select>
+            <div class="row display-flex mb-3">
+                <div class="col-md-4 col-sm-offset-2 themed-grid-col">
+                    <label for="recipe">Recipe: </label>
+                    <input id="recipeField" type="text" name="recipe" placeholder="Search Recipe *"/>
                 </div>
                 <div class="col-md-4 themed-grid-col">
-                    <select id="methodSelect">
-                        <option value="get">GET</option>
-                        <option value="head">HEAD</option>
-                    </select>
-                </div>
-                <div class="col-md-4 themed-grid-col">
-                    <input type="submit" value="Get User" />
+                    <input type="submit" value="Get Recipe" />
                 </div>
             </div>
         </form>
         <section id="content">
+            <h2 class="title">Recipes</h2>
     </section>
     </div>
 </body>

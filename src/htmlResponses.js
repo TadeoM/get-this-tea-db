@@ -11,6 +11,7 @@ const getIndex = (request, response) => {
     response.write(index);
     response.end();
 };
+';'
 const getCreationForm = (request, response) => {
     response.writeHead(200, {
         'Content-Type': 'text/html'

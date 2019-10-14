@@ -27,9 +27,11 @@ const urlStruct = {
 
 
 
-const handlePost = (request, response, parsedUrl) => {
+const handleParams = (request, response, parsedUrl) => {
+    
     //if post is to /addRecipe (our only POST url)
-    if (parsedUrl.pathname === '/addRecipe') {
+    if (parsedUrl.pathname === '/addRecipe' || parsedUrl.pathname === '/getRecipes') {
+        
         const res = response;
 
         //uploads come in as a byte stream that we need 
@@ -60,18 +62,23 @@ const handlePost = (request, response, parsedUrl) => {
             //Parse the string into an object by field name
             const bodyParams = query.parse(bodyString);
             //pass to our addRecipe function
+
             jsonHandler.addRecipe(request, res, bodyParams);
+            
         });
     }
 };
 
 const onRequest = (request, response) => {
     const parsedUrl = url.parse(request.url);
+    const params = query.parse(parsedUrl.query);
+    console.dir(params)
 
     if (request.method === 'POST') {
-        handlePost(request, response, parsedUrl)
+        handleParams(request, response, parsedUrl)
+        
     } else if (urlStruct[request.method][parsedUrl.pathname]) {
-        urlStruct[request.method][parsedUrl.pathname](request, response);
+        urlStruct[request.method][parsedUrl.pathname](request, response, params);
     } else {
         urlStruct['HEAD'].notFound(request, response);
     }
